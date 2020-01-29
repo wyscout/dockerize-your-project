@@ -2,23 +2,27 @@
 
 Easy-to-apply instructions for running any project inside a Docker container that use the same environment of the production.
 
-## What?
+### What?
 
 Following the instructions, any project can be run on the developer's laptop using the same PHP version and PHP extensions.
 
-## Why?
+### Why?
 
 Local development is a great commodity, compared to remote one. In a foreseeable future Sysadmins could make available the docker images really used in production (at the time of writing only the one used by the CI is available), and very different environments could become the norm. Managing that variability from the local machine would be troublesome.
 
-## When?
+### When?
 
 This kind of dockerization is quite unobtrusive, so it can be applied both in freshly created projects and in older ones. It's just a matter of adding a few files to the project and no further interaction with other systems is required. 
 
-## How?
+## Where?
+
+At the moment, just on Mac. Docker has great differences in networking between Linux and Mac, and an easy solution for debugging in both environment seems out of reach.
+
+An easy solution to work on Linux is avoid entirely the private network and using the mode `host`, and referring always to `localhost`in every configuration.
+
+### How?
 
 In this repository are made available a few files to be used as a template; they can be copied to any project and customized at will, because they are just a scaffold. Whilst this solution assumes to serve a Symfony project, with little-to-none editing any project can be run in Docker.
-
-### Installation
 
 The only prerequisite is having installed on the computer both `docker` and `docker-compose`; having that, it's just matter of following these steps:
 
@@ -28,4 +32,4 @@ The only prerequisite is having installed on the computer both `docker` and `doc
 
 ### Execution and debugging
 
-PHP is configured to automatically start a remote debugging session connecting to `localhost:9000`; since the containers are run without network isolation the IDE sees the debug session as local, so no registration or specific IDE key has to be defined
+PHP is configured to automatically start a remote debugging session connecting to `localhost:9000`; no registration or specific IDE key has to be defined.

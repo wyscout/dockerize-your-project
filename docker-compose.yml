@@ -7,8 +7,13 @@ services:
     # could be changed if the necessity arises.
     image: nginx:1.14.1
 
-    # Avoid the networking isolation of the containers. They "run on localhost" without instantiating a private network.
-    network_mode: host
+    # Link the container to the network defined at the end of this file
+    networks:
+      - docknet
+
+    # Expose the port to the real world
+    ports:
+      - "80:80"
 
     # Determine whic files are available inside the container
     volumes:
@@ -23,8 +28,9 @@ services:
     # Choose here which PHP version you need. Ask some Sysadmin for a list of available images.
     image: vengomatto/wyjenkinsslave:1.1-php7.2
 
-    # Avoid the networking isolation of the containers. They "run on localhost" without instantiating a private network.
-    network_mode: host
+    # Link the container to the network defined at the end of this file
+    networks:
+      - docknet
 
     # Launch the FPM executable keeping it on foreground, so Docker won't stop the container. The sudo is required because
     # the image isn't meant to be run in this way.
@@ -45,3 +51,11 @@ services:
       - ./docker/xdebug.ini:/etc/php/7.2/mods-available/xdebug.ini
         # OPTIONAL: expose the nginx logs to the IDE
       - ./var/log:/var/log
+
+networks:
+  # Define a network in bridge mode, with a strange subnet "just in case"
+  docknet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.123.0/24
